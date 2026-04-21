@@ -2,9 +2,98 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>ShopGrid | Buy & Sell Marketplace</title>
+    <link rel="stylesheet" href="dashboard.css">
+
+    <link href="" rel="stylesheet">
+    <link rel="stylesheet" href="">
 </head>
 <body>
+<div class="app-container">
 
+    <div class="top-controls">
+        <div class="search-box">
+            <div class="search-input-wrapper">
+                <i class="fas fa-magnifying-glass"></i>
+                <label for="searchInput"></label><input type="text" id="searchInput" placeholder="Search Product Name..." autocomplete="off">
+            </div>
+        </div>
+        <div class="categories-wrapper">
+            <div class="cat-list" id="categoryList">
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="sell-section">
+        <div class="sell-header">
+            <i class="fas fa-plus-circle"></i>
+            <h2>Sell Your Item</h2>
+            <p>List your product for others to buy</p>
+        </div>
+        <form id="sellForm" class="sell-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-tag"></i> Product Name</label>
+                    <label for="productName"></label><input type="text" id="productName" placeholder="e.g., Wireless Headphones" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-layer-group"></i> Category</label>
+                    <label for="productCategory"></label><select id="productCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="Home">Home</option>
+                        <option value="Furniture">Furniture</option>
+                        <option value="Shirts">Shirts</option>
+                        <option value="Mens Wear">Mens Wear</option>
+                        <option value="Women Wear">Women Wear</option>
+                        <option value="Shoes">Shoes</option>
+                        <option value="Clothes">Clothes</option>
+                        <option value="Electronics">Electronics</option>
+                        <option value="Accessories">Accessories</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label><i class="fas fa-rand"></i> Selling Price (R)</label>
+                    <label for="productPrice"></label><input type="number" id="productPrice" step="0.01" placeholder="0.00" required>
+
+                    <label><i class="fas fa-rand"></i> Original Price (R)</label>
+                    <label for="productOriginalPrice"></label><input type="number" id="productOriginalPrice" step="0.01"
+                                                                     placeholder="0.00" required>
+                </div>
+            </div>
+            <button type="submit" class="sell-btn"><i class="fas fa-cloud-upload-alt"></i> List Item for Sale</button>
+        </form>
+    </div>
+
+
+    <main class="products-main">
+        <div class="section-header">
+            <h1>Products</h1>
+            <p>Browse items from our community marketplace</p>
+        </div>
+
+
+        <div id="productsGridContainer" class="products-grid">
+
+        </div>
+
+
+        <div class="pagination-footer">
+            <div class="showing-info" id="showingRangeInfo">
+                Showing 1 to 5 of 12 results
+            </div>
+            <div class="pagination-controls">
+                <button class="page-btn" id="prevPageBtn" disabled><i class="fas fa-chevron-left"></i> Prev</button>
+                <button class="page-btn" id="nextPageBtn">Next <i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="dashboard.js"></script>
 </body>
 </html>
