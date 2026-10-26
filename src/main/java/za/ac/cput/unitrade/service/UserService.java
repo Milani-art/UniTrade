@@ -7,10 +7,14 @@ import za.ac.cput.unitrade.dto.UserDTO;
 import za.ac.cput.unitrade.dao.User;
 import za.ac.cput.unitrade.repository.UserRepository;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 
 public class UserService {
+    private static final Pattern ALLOWED_UNIVERSITY_EMAIL =
+            Pattern.compile("^[^@\\s]+@(mycput|cput)\\.ac\\.za$");
+
     @Autowired
     private UserRepository userRepository;
 
@@ -20,6 +24,10 @@ public class UserService {
     public User register(UserDTO userDTO) {
         String normalizedEmail = userDTO.getUniversityEmail() == null ? "" : userDTO.getUniversityEmail().trim().toLowerCase();
         userDTO.setUniversityEmail(normalizedEmail);
+
+        if (!ALLOWED_UNIVERSITY_EMAIL.matcher(normalizedEmail).matches()) {
+            throw new IllegalArgumentException("University email must end with @mycput.ac.za or @cput.ac.za");
+        }
 
         if (userRepository.existsByUniversityEmail(normalizedEmail)) {
             throw new RuntimeException("An account with this email already exists");
@@ -62,6 +70,18 @@ public class UserService {
     public User unbanUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
         user.setBanned(false);
+        return userRepository.save(user);
+    }
+
+    public User verifyUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setVerified(true);
+        return userRepository.save(user);
+    }
+
+    public User unverifyUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        user.setVerified(false);
         return userRepository.save(user);
     }
 }

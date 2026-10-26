@@ -17,7 +17,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/api/messages/**", "/api/users/**", "/api/items/**", "/api/admin/**", "/api/reports/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/api/password-reset/**", "/api/messages/**", "/api/users/**", "/api/items/**", "/api/admin/**", "/api/reports/**").permitAll()
                         .requestMatchers("/", "/home.html", "/dashboard.html").permitAll()
                         .requestMatchers("/home.css", "/home.js", "/dashboard.css", "/dashboard.js").permitAll()
                         .requestMatchers("/logo.png", "/*.png", "/*.jpg", "/*.jpeg", "/*.ico", "/*.svg").permitAll()
@@ -36,4 +36,3 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
-

@@ -58,7 +58,7 @@ export default function ReportListing() {
         <div className="report-success">
           <h2>Report Submitted</h2>
           <p>Thank you for keeping our campus safe. The university administration will review your report shortly.</p>
-          <Link to="/" className="btn-cancel">Return Home</Link>
+          <Link to="/home" className="btn-cancel">Return Home</Link>
         </div>
       </div>
     );

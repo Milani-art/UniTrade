@@ -48,17 +48,17 @@ public class UniTradeApplication {
     @Bean
     public CommandLineRunner initAdmin(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
         return args -> {
-            if (!userRepository.existsByUniversityEmail("admin@unitrade.com")) {
+            if (!userRepository.existsByUniversityEmail("admin@mycput.ac.za")) {
                 User admin = new User();
-                admin.setFirstName("Super");
+                admin.setFirstName("Upper");
                 admin.setLastName("Admin");
-                admin.setUniversityEmail("admin@unitrade.com");
-                admin.setEmail("admin@unitrade.com");
+                admin.setUniversityEmail("admin@mycput.ac.za");
+                admin.setEmail("admin@mycput.ac.za");
                 admin.setPassword(passwordEncoder.encode("admin"));
                 admin.setRole("ADMIN");
                 admin.setVerified(true);
                 userRepository.save(admin);
-                System.out.println("Default Admin account created: admin@unitrade.com / admin");
+                System.out.println("Default Admin account created: admin@mycput.ac.za / admin");
             }
         };
     }

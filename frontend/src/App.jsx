@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Link, Outlet, useNavigate, useLocation, N
 import { useState, useEffect } from 'react';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import ForgotPassword from './pages/ForgotPassword';
 import SignUp from './pages/SignUp';
 import Search from './pages/Search';
 import UserProfile from './pages/UserProfile';
@@ -21,7 +22,7 @@ import logo from './assets/logo.png';
 import { Home as HomeIcon, Search as SearchIcon, ShoppingCart, CreditCard, History, HelpCircle, Flag, Shield, PlusCircle, MessageSquare, Settings } from 'lucide-react';
 
 const navigationItems = [
-  { label: 'Home', icon: HomeIcon, path: '/' },
+  { label: 'Home', icon: HomeIcon, path: '/home' },
   { label: 'Discover', icon: SearchIcon, path: '/search' },
   { label: 'Cart', icon: ShoppingCart, path: '/cart' },
   { label: 'Checkout', icon: CreditCard, path: '/checkout' },
@@ -72,7 +73,7 @@ const MainLayout = () => {
     if (item) setActiveNav(item.label);
     
     // Redirect admin from Home to Admin Dashboard
-    if (user?.role === 'ADMIN' && path === '/') {
+    if (user?.role === 'ADMIN' && path === '/home') {
       navigate('/admin');
     }
   }, [location.pathname, user]);
@@ -80,7 +81,7 @@ const MainLayout = () => {
   return (
     <div className="app">
       <aside className="sidebar">
-        <Link to="/" className="brand" onClick={() => setActiveNav('Home')}>
+        <Link to="/home" className="brand" onClick={() => setActiveNav('Home')}>
           <div className="brand-card">
             <img src={logo} alt="UniTrade" className="brand-logo" />
           </div>
@@ -158,11 +159,12 @@ function App() {
       <Routes>
         {/* Auth routes without MainLayout (Full Screen) */}
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/signup" element={<SignUp />} />
         
         {/* All other routes with MainLayout */}
         <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/search" element={<Search />} />
           <Route path="/listing/:id" element={<ListingDetails />} />
           <Route path="/profile" element={<UserProfile />} />
@@ -177,6 +179,7 @@ function App() {
           <Route path="/messages" element={<Messages />} />
           <Route path="/admin" element={<AdminDashboard />} />
         </Route>
+        <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>
   );

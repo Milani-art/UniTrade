@@ -35,6 +35,8 @@ public class Item {
     @Column(nullable = false, length = 20)
     private String status;
 
+    @Lob
+    @Column(columnDefinition = "LONGTEXT")
     private String imageUrl;
 
     @Column(length = 120)

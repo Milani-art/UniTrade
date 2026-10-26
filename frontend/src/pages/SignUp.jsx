@@ -57,7 +57,7 @@ export default function SignUp() {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <Link to="/" className="auth-close">
+        <Link to="/login" className="auth-close">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </Link>
         
@@ -109,6 +109,8 @@ export default function SignUp() {
                 type="email" 
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                pattern="^[^@\s]+@(mycput|cput)\.ac\.za$"
+                title="Use a CPUT email ending in @mycput.ac.za or @cput.ac.za"
                 required 
               />
             </div>

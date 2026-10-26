@@ -15,10 +15,41 @@ export default function CreateListing() {
     });
     const [error, setError] = useState("");
     const [submitting, setSubmitting] = useState(false);
+    const [imageFileName, setImageFileName] = useState("");
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+            setError("Please choose an image file.");
+            e.target.value = "";
+            return;
+        }
+        if (file.size > 2 * 1024 * 1024) {
+            setError("Please choose an image smaller than 2 MB.");
+            e.target.value = "";
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            setFormData((prev) => ({ ...prev, image: reader.result }));
+            setImageFileName(file.name);
+            setError("");
+        };
+        reader.onerror = () => setError("Unable to read that image. Please try another file.");
+        reader.readAsDataURL(file);
+    };
+
+    const clearUploadedImage = () => {
+        setFormData((prev) => ({ ...prev, image: "" }));
+        setImageFileName("");
     };
 
     const handleSubmit = async (e) => {
@@ -56,7 +87,7 @@ export default function CreateListing() {
             <div className="listing-layout">
                 <form className="listing-form" onSubmit={handleSubmit}>
                     {error && <div className="listing-error" role="alert">{error}</div>}
-                    <section className="listing-section">
+                            <section className="listing-section">
                         <div className="section-title">
                             <span className="section-number">01</span>
                             <div><h2>Item details</h2><p>Start with the basics buyers look for first.</p></div>
@@ -116,8 +147,26 @@ export default function CreateListing() {
                             <div><h2>Item photo</h2><p>Add a clear image to help your listing stand out.</p></div>
                         </div>
                         <div className="listing-field">
+                            <label htmlFor="image-file">Upload from your device <span>(optional)</span></label>
+                            <input
+                                type="file"
+                                className="listing-input listing-file-input"
+                                id="image-file"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                            />
+                            {imageFileName && (
+                                <div className="listing-file-selected">
+                                    <span>{imageFileName}</span>
+                                    <button type="button" onClick={clearUploadedImage}>Remove</button>
+                                </div>
+                            )}
+                        </div>
+                        <div className="listing-image-divider"><span>or use an image URL</span></div>
+                        <div className="listing-field">
                             <label htmlFor="image">Image URL <span>(optional)</span></label>
-                            <input type="url" className="listing-input" id="image" name="image" placeholder="https://example.com/image.jpg" value={formData.image} onChange={handleChange} />
+                            <input type="url" className="listing-input" id="image" name="image" placeholder="https://example.com/image.jpg" value={imageFileName ? "" : formData.image} onChange={handleChange} disabled={Boolean(imageFileName)} />
+                            {imageFileName && <small className="listing-field-help">The uploaded image will be used instead of the URL.</small>}
                         </div>
                     </section>
 

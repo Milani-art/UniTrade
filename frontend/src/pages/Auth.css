@@ -198,6 +198,25 @@
   color: #1d4ed8;
 }
 
+.auth-error,
+.auth-message {
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.auth-error {
+  color: #b91c1c;
+  background: #fee2e2;
+}
+
+.auth-message {
+  color: #166534;
+  background: #dcfce7;
+}
+
 .auth-terms {
   text-align: center;
   font-size: 13px;

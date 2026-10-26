@@ -19,6 +19,12 @@
 .listing-field label { color: var(--ink); font-size: 13px; font-weight: 700; }
 .listing-field label span { color: var(--muted); font-size: 11px; font-weight: 500; }
 .listing-input { width: 100%; min-height: 45px; padding: 11px 13px; font-size: 13px; }
+.listing-file-input { padding: 9px 13px; }
+.listing-file-selected { display: flex; align-items: center; justify-content: space-between; gap: 12px; color: var(--muted); font-size: 12px; }
+.listing-file-selected button { border: 0; background: transparent; color: var(--danger); cursor: pointer; font-size: 12px; font-weight: 700; }
+.listing-image-divider { display: flex; align-items: center; gap: 12px; margin: -2px 0 19px; color: var(--muted); font-size: 11px; }
+.listing-image-divider::before, .listing-image-divider::after { content: ""; height: 1px; flex: 1; background: var(--border); }
+.listing-field-help { color: var(--muted); font-size: 11px; }
 .listing-textarea { min-height: 112px; resize: vertical; }
 .listing-fields-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 19px; }
 .listing-actions { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 20px 30px; }

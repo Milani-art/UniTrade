@@ -30,7 +30,7 @@ export default function Login() {
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem('user', JSON.stringify(data));
-        navigate('/');
+        navigate(data.role === 'ADMIN' ? '/admin' : '/home');
       } else {
         const errorText = await response.text();
         setError(errorText || 'Failed to login. Please check your credentials.');
@@ -45,7 +45,7 @@ export default function Login() {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <Link to="/" className="auth-close">
+        <Link to="/login" className="auth-close">
           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
         </Link>
         
@@ -76,7 +76,6 @@ export default function Login() {
               />
             </div>
           </div>
-          
           <div className="form-group">
             <label>Password</label>
             <div className="input-container">
@@ -108,6 +107,9 @@ export default function Login() {
         
         <div className="auth-footer">
           Don't have an account? <Link to="/signup">Create one</Link>
+        </div>
+        <div className="auth-footer">
+          <Link to="/forgot-password">Forgot password?</Link>
         </div>
       </div>
     </div>

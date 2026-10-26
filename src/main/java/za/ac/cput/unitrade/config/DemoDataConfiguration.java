@@ -25,11 +25,11 @@ public class DemoDataConfiguration {
             BCryptPasswordEncoder passwordEncoder,
             @Value("${unitrade.demo-data.enabled:true}") boolean enabled) {
         return args -> {
-            if (userRepository.findByUniversityEmail("admin").isEmpty()) {
+            if (userRepository.findByUniversityEmail("admin@cput.ac.za").isEmpty()) {
                 User admin = new User();
                 admin.setFirstName("Admin");
                 admin.setLastName("User");
-                admin.setUniversityEmail("admin");
+                admin.setUniversityEmail("admin@cput.ac.za");
                 admin.setEmail("admin@cput.ac.za");
                 admin.setPassword(passwordEncoder.encode("230226442"));
                 admin.setVerified(true);
