@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 @Entity
@@ -46,6 +47,6 @@ public class Item {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @PrePersist void onCreate() { createdAt = updatedAt = LocalDateTime.now(); }
-    @PreUpdate  void onUpdate() { updatedAt = LocalDateTime.now(); }
+    @PrePersist void onCreate() { createdAt = updatedAt = LocalDateTime.now(ZoneId.of("Africa/Johannesburg")); }
+    @PreUpdate  void onUpdate() { updatedAt = LocalDateTime.now(ZoneId.of("Africa/Johannesburg")); }
 }

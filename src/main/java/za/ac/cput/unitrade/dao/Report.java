@@ -3,6 +3,7 @@ package za.ac.cput.unitrade.dao;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Data @NoArgsConstructor @AllArgsConstructor @Builder
 @Entity
@@ -30,5 +31,5 @@ public class Report {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    @PrePersist void onCreate() { createdAt = LocalDateTime.now(); }
+    @PrePersist void onCreate() { createdAt = LocalDateTime.now(ZoneId.of("Africa/Johannesburg")); }
 }

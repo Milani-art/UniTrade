@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import './Auth.css';
 
 export default function ForgotPassword() {
-  const [email, setEmail] = useState('');
-  const [token, setToken] = useState('');
-  const [status, setStatus] = useState('');
+  const [email, setEmail] = useState(() => localStorage.getItem('passwordResetEmail') || '');
+  const [token, setToken] = useState(() => localStorage.getItem('passwordResetToken') || '');
+  const [status, setStatus] = useState(() => localStorage.getItem('passwordResetStatus') || '');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -27,6 +27,8 @@ export default function ForgotPassword() {
       if (!response.ok) throw new Error(data.message || 'Could not submit request.');
       setToken(data.token);
       setStatus(data.status);
+      localStorage.setItem('passwordResetToken', data.token);
+      localStorage.setItem('passwordResetStatus', data.status);
       setMessage('Your request was sent to an administrator. Check approval before setting a new password.');
     } catch (requestError) {
       setError(requestError.message);
@@ -43,6 +45,7 @@ export default function ForgotPassword() {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || 'Could not check request status.');
       setStatus(data.status);
+      localStorage.setItem('passwordResetStatus', data.status);
       setMessage(data.status === 'APPROVED'
         ? 'Your request was approved. Set a new password below.'
         : `Request status: ${data.status}.`);
@@ -52,6 +55,11 @@ export default function ForgotPassword() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (!token || status === 'APPROVED' || status === 'COMPLETED') return;
+    checkApproval();
+  }, [token]);
 
   const completeReset = async (event) => {
     event.preventDefault();
@@ -71,6 +79,9 @@ export default function ForgotPassword() {
       if (!response.ok) throw new Error(data.message || 'Could not reset password.');
       setMessage('Password reset successfully. You can now sign in.');
       setStatus('COMPLETED');
+      localStorage.removeItem('passwordResetToken');
+      localStorage.removeItem('passwordResetStatus');
+      localStorage.removeItem('passwordResetEmail');
       setNewPassword('');
       setConfirmPassword('');
     } catch (requestError) {

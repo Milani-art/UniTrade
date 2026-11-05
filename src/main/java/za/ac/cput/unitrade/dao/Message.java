@@ -26,4 +26,7 @@ public class Message {
 
     @Column(nullable = false)
     private LocalDateTime timestamp;
+
+    @Column(name = "read_status", nullable = false)
+    private boolean read = false;
 }

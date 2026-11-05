@@ -18,7 +18,7 @@ const AdminDashboard = () => {
 
   const fetchUsers = async () => {
     try {
-      const response = await fetch('/api/admin/users', { cache: 'no-store' });
+      const response = await fetch('/api/admin/users', { cache: 'no-store', credentials: 'include' });
       if (response.ok) {
         const data = await response.json();
         setUsers(data.map(normalizeUser));
@@ -30,7 +30,7 @@ const AdminDashboard = () => {
 
   const fetchReports = async () => {
     try {
-      const response = await fetch('/api/admin/reports', { cache: 'no-store' });
+      const response = await fetch('/api/admin/reports', { cache: 'no-store', credentials: 'include' });
       if (response.ok) {
         const data = await response.json();
         setReports(data);
@@ -42,7 +42,7 @@ const AdminDashboard = () => {
 
   const fetchResetRequests = async () => {
     try {
-      const response = await fetch('/api/admin/password-reset-requests', { cache: 'no-store' });
+      const response = await fetch('/api/admin/password-reset-requests', { cache: 'no-store', credentials: 'include' });
       if (response.ok) setResetRequests(await response.json());
     } catch (error) {
       console.error('Error fetching password reset requests:', error);
@@ -59,6 +59,7 @@ const AdminDashboard = () => {
     try {
       const response = await fetch(`/api/admin/password-reset-requests/${requestId}`, {
         method: 'PUT',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status }),
       });
@@ -77,6 +78,7 @@ const AdminDashboard = () => {
     try {
       const response = await fetch(`/api/admin/users/${userId}/${action}`, {
         method: 'PUT',
+        credentials: 'include',
       });
       if (response.ok) {
         const updatedUser = normalizeUser(await response.json());
@@ -95,6 +97,7 @@ const AdminDashboard = () => {
     try {
       const response = await fetch(`/api/admin/users/${userId}/${action}`, {
         method: 'PUT',
+        credentials: 'include',
       });
       if (response.ok) {
         const updatedUser = normalizeUser(await response.json());
@@ -111,6 +114,7 @@ const AdminDashboard = () => {
     try {
       const response = await fetch(`/api/admin/reports/${reportId}/resolve`, {
         method: 'PUT',
+        credentials: 'include',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action }),
       });

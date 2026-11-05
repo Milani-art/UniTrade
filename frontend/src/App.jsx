@@ -43,6 +43,19 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
+const AdminRoute = ({ children }) => {
+  let user = null;
+  try {
+    user = JSON.parse(localStorage.getItem('user') || 'null');
+  } catch {
+    localStorage.removeItem('user');
+  }
+  if (!user || user.role !== 'ADMIN') {
+    return <Navigate to="/home" replace />;
+  }
+  return children;
+};
+
 const MainLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -60,7 +73,8 @@ const MainLayout = () => {
     }
   }, []);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await fetch('/api/auth/logout', { method: 'POST', credentials: 'include' });
     localStorage.removeItem('user');
     setUser(null);
     navigate('/login');
@@ -177,7 +191,7 @@ function App() {
           <Route path="/terms" element={<TermsPrivacy />} />
           <Route path="/create-listing" element={<CreateListing />} />
           <Route path="/messages" element={<Messages />} />
-          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
         </Route>
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>

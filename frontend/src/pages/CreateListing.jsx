@@ -136,7 +136,14 @@ export default function CreateListing() {
                             </div>
                             <div className="listing-field">
                                 <label htmlFor="location">Meet-up location</label>
-                                <input type="text" className="listing-input" id="location" name="location" placeholder="e.g. Cape Town Campus" value={formData.location} onChange={handleChange} required />
+                                <select className="listing-input" id="location" name="location" value={formData.location} onChange={handleChange} required>
+                                    <option value="">Select a CPUT campus</option>
+                                    <option value="Bellville Campus">Bellville Campus</option>
+                                    <option value="District Six Campus">District Six Campus</option>
+                                    <option value="Granger Bay Campus">Granger Bay Campus</option>
+                                    <option value="Mowbray Campus">Mowbray Campus</option>
+                                    <option value="Wellington Campus">Wellington Campus</option>
+                                </select>
                             </div>
                         </div>
                     </section>

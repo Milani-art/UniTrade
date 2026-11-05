@@ -18,6 +18,7 @@ export default function Login() {
     try {
       const response = await fetch('/api/auth/login', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -33,6 +34,11 @@ export default function Login() {
         navigate(data.role === 'ADMIN' ? '/admin' : '/home');
       } else {
         const errorText = await response.text();
+        if (errorText.toLowerCase().includes('password reset required')) {
+          localStorage.setItem('passwordResetEmail', email);
+          navigate('/forgot-password');
+          return;
+        }
         setError(errorText || 'Failed to login. Please check your credentials.');
       }
     } catch (err) {

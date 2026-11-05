@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import za.ac.cput.unitrade.dao.Message;
 import za.ac.cput.unitrade.dto.MessageDTO;
+import za.ac.cput.unitrade.dto.MessageSummaryDTO;
 import za.ac.cput.unitrade.service.MessageService;
 
 import java.util.List;
@@ -32,5 +33,18 @@ public class MessageController {
             @PathVariable Long user2Id) {
         List<Message> conversation = messageService.getConversation(user1Id, user2Id);
         return ResponseEntity.ok(conversation);
+    }
+
+    @PutMapping("/{userId}/{otherUserId}/read")
+    public ResponseEntity<Void> markConversationRead(
+            @PathVariable Long userId,
+            @PathVariable Long otherUserId) {
+        messageService.markConversationRead(userId, otherUserId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/summaries/{userId}")
+    public ResponseEntity<List<MessageSummaryDTO>> getSummaries(@PathVariable Long userId) {
+        return ResponseEntity.ok(messageService.getSummaries(userId));
     }
 }

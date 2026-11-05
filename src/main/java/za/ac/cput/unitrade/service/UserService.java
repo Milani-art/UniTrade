@@ -5,7 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import za.ac.cput.unitrade.dto.UserDTO;
 import za.ac.cput.unitrade.dao.User;
+import za.ac.cput.unitrade.dao.PasswordResetRequest;
 import za.ac.cput.unitrade.repository.UserRepository;
+import za.ac.cput.unitrade.repository.PasswordResetRequestRepository;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -20,6 +25,9 @@ public class UserService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private PasswordResetRequestRepository passwordResetRequestRepository;
 
     public User register(UserDTO userDTO) {
         String normalizedEmail = userDTO.getUniversityEmail() == null ? "" : userDTO.getUniversityEmail().trim().toLowerCase();
@@ -50,6 +58,16 @@ public class UserService {
         if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) {
             if (user.get().isBanned()) {
                 throw new RuntimeException("This account has been banned.");
+            }
+            Optional<PasswordResetRequest> resetRequest =
+                    passwordResetRequestRepository.findFirstByUserIdAndStatusInOrderByCreatedAtDesc(
+                            user.get().getId(), List.of("PENDING", "APPROVED"));
+            if (resetRequest.isPresent()
+                    && (resetRequest.get().getExpiresAt() == null
+                    || resetRequest.get().getExpiresAt().isAfter(
+                    LocalDateTime.now(ZoneId.of("Africa/Johannesburg"))))) {
+                throw new RuntimeException(
+                        "Password reset required. Please complete your password reset before signing in.");
             }
             return user;
         }

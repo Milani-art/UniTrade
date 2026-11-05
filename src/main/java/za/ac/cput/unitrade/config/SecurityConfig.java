@@ -17,7 +17,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**", "/api/password-reset/**", "/api/messages/**", "/api/users/**", "/api/items/**", "/api/admin/**", "/api/reports/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/api/password-reset/**", "/api/messages/**", "/api/users/**", "/api/items/**", "/api/reports/**").permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/", "/home.html", "/dashboard.html").permitAll()
                         .requestMatchers("/home.css", "/home.js", "/dashboard.css", "/dashboard.js").permitAll()
                         .requestMatchers("/logo.png", "/*.png", "/*.jpg", "/*.jpeg", "/*.ico", "/*.svg").permitAll()
@@ -26,6 +27,10 @@ public class SecurityConfig {
 
                 .formLogin(form -> form
                         .loginPage("/login")
+                        .permitAll())
+                .logout(logout -> logout
+                        .logoutUrl("/api/auth/logout")
+                        .logoutSuccessHandler((request, response, authentication) -> response.setStatus(204))
                         .permitAll());
 
         return http.build();

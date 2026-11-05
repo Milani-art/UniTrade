@@ -90,6 +90,27 @@
   color: inherit;
 }
 
+.unread-dot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  margin-left: 8px;
+  border-radius: 50%;
+  background: var(--accent, #ff4757);
+  vertical-align: middle;
+  box-shadow: 0 0 0 3px rgba(255, 71, 87, 0.14);
+}
+
+.user-item.unread {
+  background: rgba(255, 71, 87, 0.06);
+  border-color: rgba(255, 71, 87, 0.18);
+}
+
+.user-item.active.unread {
+  background: var(--primary-color, #2563eb);
+  border-color: transparent;
+}
+
 .user-item:not(.active) .user-name {
   color: var(--text-color, #111827);
 }

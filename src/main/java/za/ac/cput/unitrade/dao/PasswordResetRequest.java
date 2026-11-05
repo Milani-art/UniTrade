@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Data
 @Entity
@@ -30,8 +31,12 @@ public class PasswordResetRequest {
     @Column
     private LocalDateTime resolvedAt;
 
+    @Column
+    private LocalDateTime expiresAt;
+
     @PrePersist
     void onCreate() {
-        createdAt = LocalDateTime.now();
+        createdAt = LocalDateTime.now(ZoneId.of("Africa/Johannesburg"));
+        expiresAt = createdAt.plusMinutes(30);
     }
 }
